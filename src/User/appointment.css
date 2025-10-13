@@ -1,0 +1,65 @@
+/* ===== Date Availability Styles ===== */
+.react-datepicker__day.available {
+  background-color: #d4edda !important; /* light green */
+  color: #155724 !important;           /* dark green */
+  border-radius: 0.3rem;
+}
+
+.react-datepicker__day.unavailable,
+.react-datepicker__day.weekend {
+  background-color: #f8d7da !important; /* light red */
+  color: #721c24 !important;           /* dark red */
+  text-decoration: line-through;
+  border-radius: 0.3rem;
+  pointer-events: none;
+}
+
+/* Highlight today's date */
+.react-datepicker__day--today {
+  border: 1px solid #007bff;
+}
+
+/* ===== Appointment Form Container ===== */
+.appointment-form {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  
+}
+
+/* ===== Form Layout ===== */
+.appointment-form form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.appointment-form .mb-3 {
+  width: 100%;
+  text-align: left;
+  margin-bottom: 1.2rem;
+}
+
+/* ===== Inputs, Selects, Datepicker ===== */
+.appointment-form input,
+.appointment-form select,
+.appointment-form .react-datepicker-wrapper {
+  width: 100%;
+  padding: 0.6rem;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+/* ===== Submit Button ===== */
+.appointment-form button {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border-radius: 5px;
+  margin-top: 1rem;
+}

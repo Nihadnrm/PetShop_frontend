@@ -1,0 +1,76 @@
+/* Background */
+#auth {
+  background-image: url("https://i.pinimg.com/736x/c8/3b/c9/c83bc998e196e566b46a2bc60f169d42.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+  padding: 2rem 0; /* top and bottom padding */
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Form card */
+.auth-card {
+  display: flex;
+  flex-wrap: wrap;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0,0,0,0.2);
+  background-color: rgba(255, 255, 255, 0.95);
+  max-height: 90vh; /* prevent overlapping footer */
+  width: 90%;
+  max-width: 900px;
+}
+
+/* Image side */
+.auth-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Form side */
+.auth-form {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow-y: auto; /* scroll if content is too tall */
+  max-height: 100%;
+}
+
+/* Buttons */
+.auth-form .btn {
+  border-radius: 0.5rem;
+  font-weight: 500;
+}
+
+/* Responsive tweaks */
+@media (max-width: 992px) {
+  .auth-card {
+    flex-direction: column;
+    max-height: none;
+  }
+
+  .auth-img {
+    border-radius: 1rem 1rem 0 0;
+    max-height: 250px;
+  }
+
+  .auth-form {
+    border-radius: 0 0 1rem 1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .auth-form {
+    padding: 1rem;
+  }
+
+  .auth-form h3 {
+    font-size: 1.5rem;
+  }
+}
