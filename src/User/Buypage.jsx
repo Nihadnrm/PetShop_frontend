@@ -20,47 +20,46 @@ function Buypage() {
   const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
   const handlePay = async () => {
-    if (!userinfo.name || !userinfo.email || !userinfo.mobile || !userinfo.pin || !userinfo.address) {
-      return toast.error("Please fill all fields");
-    }
-    if (!validateEmail(userinfo.email)) return toast.error("Invalid email");
-    if (!validateMobile(userinfo.mobile)) return toast.error("Invalid mobile number");
-    if (!validatePin(userinfo.pin)) return toast.error("Invalid pincode");
-    if (!petinfo._id) return toast.error("Pet info missing");
+  if (!userinfo.name || !userinfo.email || !userinfo.mobile || !userinfo.pin || !userinfo.address) {
+    return toast.error("Please fill all fields");
+  }
+  if (!validateEmail(userinfo.email)) return toast.error("Invalid email");
+  if (!validateMobile(userinfo.mobile)) return toast.error("Invalid mobile number");
+  if (!validatePin(userinfo.pin)) return toast.error("Invalid pincode");
+  if (!petinfo._id) return toast.error("Pet info missing");
 
-    setLoading(true);
+  setLoading(true);
 
-    try {
-      const cleanPrice = Number(petinfo.price.toString().replace(/[^0-9.]/g, ""));
-      if (isNaN(cleanPrice) || cleanPrice <= 0) return toast.error("Invalid price");
+  try {
+    const cleanPrice = Number(petinfo.price.toString().replace(/[^0-9.]/g, ""));
+    if (isNaN(cleanPrice) || cleanPrice <= 0) return toast.error("Invalid price");
 
-      const data = { petId: petinfo._id, ...userinfo, price: cleanPrice };
-      const response = await paymentApi(data);
-      if (!response?.data?.sessionId) return toast.error("Payment session not created");
+    const data = { petId: petinfo._id, ...userinfo, price: cleanPrice };
+    const response = await paymentApi(data);
 
-      // Save purchase info to localStorage before Stripe redirect
-      localStorage.setItem(
-        "purchaseData",
-        JSON.stringify({
-          username: userinfo.name,
-          email: userinfo.email,
-          breed: petinfo.breed,
-          price: cleanPrice,
-        })
-      );
+    if (!response?.data?.url) return toast.error("Payment session not created");
 
-      const stripe = await loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
-      if (!stripe) return toast.error("Stripe failed to load");
+    // Save purchase info to localStorage
+    localStorage.setItem(
+      "purchaseData",
+      JSON.stringify({
+        username: userinfo.name,
+        email: userinfo.email,
+        breed: petinfo.breed,
+        price: cleanPrice,
+      })
+    );
 
-      const result = await stripe.redirectToCheckout({ sessionId: response.data.sessionId });
-      if (result.error) toast.error(result.error.message || "Stripe checkout error");
-    } catch (err) {
-      console.error("Payment failed:", err);
-      toast.error(err.response?.data?.message || "Payment failed");
-    } finally {
-      setLoading(false);
-    }
-  };
+    // Redirect directly to Stripe Checkout
+    window.location.href = response.data.url;
+
+  } catch (err) {
+    console.error("Payment failed:", err);
+    toast.error(err.response?.data?.message || "Payment failed");
+  } finally {
+    setLoading(false);
+  }
+};
 
   const displayPrice = petinfo.price ? petinfo.price.toString().replace(/[^0-9.]/g, "") : 0;
 
