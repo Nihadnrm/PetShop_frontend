@@ -49,7 +49,7 @@ function Buypage() {
         })
       );
 
-      const stripe = await loadStripe("pk_test_51SADpV3P289eOjejkEdL1Nk3XavyFayIqqjYpQ8eWhr0XJLK2MgpmiyXuZikq9FF6qgAyuLQwRkBAhcqa44oR9eD00oiont1m9");
+      const stripe = await loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
       if (!stripe) return toast.error("Stripe failed to load");
 
       const result = await stripe.redirectToCheckout({ sessionId: response.data.sessionId });
