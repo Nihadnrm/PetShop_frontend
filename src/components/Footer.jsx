@@ -62,8 +62,8 @@ function Footer() {
             <h5 className="fw-bold text-center mb-3">Links</h5>
             <div className="d-flex flex-column align-items-center">
               <Link to="/" className="text-light mb-2 text-decoration-none">Home</Link>
-              <Link to="/login" className="text-light mb-2 text-decoration-none">Login</Link>
-              <Link to="/register" className="text-light mb-2 text-decoration-none">Register</Link>
+              <Link to="/userauth" className="text-light mb-2 text-decoration-none">Login</Link>
+              <Link to="/userauth" className="text-light mb-2 text-decoration-none">Register</Link>
             </div>
           </div>
 
