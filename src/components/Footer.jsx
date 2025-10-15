@@ -31,7 +31,11 @@ function Footer() {
     }
 
     try {
-      const response = await addfeedbackApi(sendfeedback);
+      const body={
+       feedback: sendfeedback.feedback,
+       user: userdata._id
+      }
+      const response = await addfeedbackApi(body);
 
       if (response.status === 200) {
         toast.success("Feedback sent successfully");
