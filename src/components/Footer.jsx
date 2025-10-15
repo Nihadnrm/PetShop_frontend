@@ -1,25 +1,28 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { addfeedbackApi } from '../Services/AllApi';
-import { toast } from 'react-toastify';
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { addfeedbackApi } from "../Services/AllApi";
+import { toast } from "react-toastify";
 
 function Footer() {
   const [sendfeedback, setsendfeedback] = useState({ feedback: "" });
   const [userdata, setuserdata] = useState(null);
-
   const nav = useNavigate();
 
   useEffect(() => {
     const storedUser = sessionStorage.getItem("userData");
     if (storedUser) {
-      setuserdata(JSON.parse(storedUser));
-      console.log(userdata);
-      
+      const parsedUser = JSON.parse(storedUser);
+      setuserdata(parsedUser);
+      console.log(parsedUser); // shows correct user info
     }
   }, []);
 
   const handlefeedback = async () => {
-    if (!userdata) {
+    // Always check from sessionStorage (avoids async timing issue)
+    const storedUser = sessionStorage.getItem("userData");
+    const user = storedUser ? JSON.parse(storedUser) : null;
+
+    if (!user) {
       toast.warning("You must log in to send feedback");
       nav("/userauth");
       return;
@@ -31,10 +34,11 @@ function Footer() {
     }
 
     try {
-      const body={
-       feedback: sendfeedback.feedback,
-       user: userdata._id
-      }
+      const body = {
+        feedback: sendfeedback.feedback,
+        user: user._id, // backend expects user ID
+      };
+
       const response = await addfeedbackApi(body);
 
       if (response.status === 200) {
@@ -45,7 +49,7 @@ function Footer() {
       }
     } catch (err) {
       console.error(err);
-      toast.info("first login then feedback 🙂");
+      toast.error("Failed to send feedback");
     }
   };
 
@@ -56,8 +60,12 @@ function Footer() {
           {/* About Section */}
           <div className="col-12 col-md-6 col-lg-4">
             <h4 className="fw-bold text-center mb-3">Petshop</h4>
-            <p style={{ textAlign: 'justify' }}>
-              Welcome to Pet Shop, your friendly online store for everything your furry, feathery, or scaly friends need! From premium pet food and toys to grooming essentials and accessories, we provide high-quality products for dogs, cats, birds, fish, rabbits, and more. We’re here to make pet parenting easy, fun, and affordable.
+            <p style={{ textAlign: "justify" }}>
+              Welcome to Pet Shop, your friendly online store for everything
+              your furry, feathery, or scaly friends need! From premium pet food
+              and toys to grooming essentials and accessories, we provide
+              high-quality products for dogs, cats, birds, fish, rabbits, and
+              more. We’re here to make pet parenting easy, fun, and affordable.
             </p>
           </div>
 
@@ -65,9 +73,24 @@ function Footer() {
           <div className="col-12 col-md-6 col-lg-2">
             <h5 className="fw-bold text-center mb-3">Links</h5>
             <div className="d-flex flex-column align-items-center">
-              <Link to="/" className="text-light mb-2 text-decoration-none">Home</Link>
-              <Link to="/userauth" className="text-light mb-2 text-decoration-none">Login</Link>
-              <Link to="/userauth" className="text-light mb-2 text-decoration-none">Register</Link>
+              <Link
+                to="/"
+                className="text-light mb-2 text-decoration-none"
+              >
+                Home
+              </Link>
+              <Link
+                to="/userauth"
+                className="text-light mb-2 text-decoration-none"
+              >
+                Login
+              </Link>
+              <Link
+                to="/userauth"
+                className="text-light mb-2 text-decoration-none"
+              >
+                Register
+              </Link>
             </div>
           </div>
 
@@ -79,12 +102,17 @@ function Footer() {
                 className="form-control"
                 rows="3"
                 placeholder="Enter your feedback..."
-                onChange={(e) => setsendfeedback({ feedback: e.target.value })}
+                onChange={(e) =>
+                  setsendfeedback({ feedback: e.target.value })
+                }
                 value={sendfeedback.feedback}
               />
             </div>
             <div className="text-center">
-              <button className="btn btn-success px-4" onClick={handlefeedback}>
+              <button
+                className="btn btn-success px-4"
+                onClick={handlefeedback}
+              >
                 Send
               </button>
             </div>
@@ -96,8 +124,10 @@ function Footer() {
           <div className="col-12 col-lg-8 mx-auto d-flex flex-column flex-md-row justify-content-between text-center text-md-start gap-3">
             <div>
               <i className="fa-solid fa-location-dot me-2"></i>
-              Rakul Pet Care Pvt. Ltd.<br />
-              Plot No. 30, Block-H, Indraprasth Yojna, Ghaziabad-201102, Uttar Pradesh
+              Rakul Pet Care Pvt. Ltd.
+              <br />
+              Plot No. 30, Block-H, Indraprasth Yojna, Ghaziabad-201102, Uttar
+              Pradesh
             </div>
             <div>
               <i className="fa-solid fa-phone me-2"></i>
@@ -119,7 +149,9 @@ function Footer() {
 
         {/* Copyright */}
         <div className="text-center py-3 mt-4 border-top">
-          <small>&copy; {new Date().getFullYear()} Petshop. All rights reserved.</small>
+          <small>
+            &copy; {new Date().getFullYear()} Petshop. All rights reserved.
+          </small>
         </div>
       </div>
     </footer>
