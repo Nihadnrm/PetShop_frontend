@@ -56,8 +56,8 @@ function App() {
         <Route path='/petdetails' element={authing?<PetDetail />: <UserAuth/>} />
         <Route path='/adminappointmentview' element={authing?<AppointmentView />: <UserAuth/>} />
         <Route path='/adminfeedback' element={authing?<Feedback />: <UserAuth/>} />
-        <Route path='/paymentsuccess' element={<PaymentSuccess/>}/>
-        <Route path='/paymenterror' element={<PaymentError/>} />
+        <Route path='/paymentsuccess' element={authing?<PaymentSuccess/>: <UserAuth/>}/>
+        <Route path='/paymenterror' element={authing?<PaymentError/>:<UserAuth/>} />
         <Route path="/search" element={<SearchResult/>} />
 
       </Routes>
