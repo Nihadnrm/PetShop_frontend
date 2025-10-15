@@ -69,12 +69,12 @@ function Orders() {
       <AdminHeader />
       <div
         className="container-fluid py-4 px-3"
-        style={{
-          backgroundColor: "white",
-          minHeight: "100vh",
-        }}
+        style={{ backgroundColor: "white", minHeight: "100vh" }}
       >
-        <div className="card shadow rounded p-3 p-md-4 bg-transparent mx-auto" style={{ maxWidth: "95%" }}>
+        <div
+          className="card shadow rounded p-3 p-md-4 bg-transparent mx-auto"
+          style={{ maxWidth: "95%" }}
+        >
           <h4 className="mb-4 text-center text-primary">
             <i className="fa-solid fa-box-open me-2"></i>Order Management
           </h4>
@@ -86,7 +86,7 @@ function Orders() {
                   <th>Order ID</th>
                   <th>Customer</th>
                   <th>Address</th>
-                  {/* <th>Image</th> */}
+                  <th>Image</th>
                   <th>Pet Name</th>
                   <th>Amount</th>
                   <th>Status</th>
@@ -99,35 +99,32 @@ function Orders() {
                     <tr key={item._id}>
                       <td style={{ wordBreak: "break-word" }}>{item._id}</td>
                       <td>
-                        <strong>{item.userId?.username}</strong>
+                        <strong>{item.userId?.username || "Unknown User"}</strong>
                       </td>
-                      <td style={{ wordBreak: "break-word" }}>{item.address}</td>
-                      {/* <td>
+                      <td style={{ wordBreak: "break-word" }}>{item.address || "-"}</td>
+                      <td>
                         <img
-                          src={item.petId.image}
-                          alt={item.petId.breed}
+                          src={item.petId?.image || "/default-pet.jpg"}
+                          alt={item.petId?.breed || "Pet"}
                           className="img-fluid rounded"
                           style={{ maxHeight: "70px", width: "auto" }}
                         />
-                      </td> */}
+                      </td>
                       <td>
                         <span className="badge bg-info text-dark px-3 py-2 rounded-pill">
-                          {item.petId.breed}
+                          {item.petId?.breed || "Unknown"}
                         </span>
                         <br />
                         <small>
-                          Age: {item.petId.age} • Gender: {item.petId.gender} •
-                          Color: {item.petId.color}
+                          Age: {item.petId?.age || "-"} • Gender: {item.petId?.gender || "-"} • Color: {item.petId?.color || "-"}
                         </small>
                       </td>
-                      <td className="fw-bold text-success">{item.petId.price}</td>
+                      <td className="fw-bold text-success">{item.petId?.price || "-"}</td>
                       <td>
                         <select
                           className="form-select form-select-sm mx-auto"
                           value={item.status || "pending"}
-                          onChange={(e) =>
-                            handleStatusChange(item._id, e.target.value)
-                          }
+                          onChange={(e) => handleStatusChange(item._id, e.target.value)}
                           style={{
                             fontWeight: 600,
                             minWidth: "100px",
