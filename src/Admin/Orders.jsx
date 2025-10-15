@@ -86,7 +86,7 @@ function Orders() {
                   <th>Order ID</th>
                   <th>Customer</th>
                   <th>Address</th>
-                  <th>Image</th>
+                  {/* <th>Image</th> */}
                   <th>Pet Name</th>
                   <th>Amount</th>
                   <th>Status</th>
@@ -102,14 +102,14 @@ function Orders() {
                         <strong>{item.userId?.username}</strong>
                       </td>
                       <td style={{ wordBreak: "break-word" }}>{item.address}</td>
-                      <td>
+                      {/* <td>
                         <img
                           src={item.petId.image}
                           alt={item.petId.breed}
                           className="img-fluid rounded"
                           style={{ maxHeight: "70px", width: "auto" }}
                         />
-                      </td>
+                      </td> */}
                       <td>
                         <span className="badge bg-info text-dark px-3 py-2 rounded-pill">
                           {item.petId.breed}
